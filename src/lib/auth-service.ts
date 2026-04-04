@@ -12,22 +12,27 @@ export async function signIn(
   password: string
 ): Promise<User | null> {
   try {
+    const sanitizedEmail = email.trim().toLowerCase();
+    
+    // Log attempting sign in to Vercel logs safely
+    console.log(`Attempting login for: '${sanitizedEmail}'`);
+
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: sanitizedEmail },
     });
 
     if (!user) {
-      throw new Error('Invalid email or password');
+      throw new Error(`DEBUG: User '${sanitizedEmail}' not found in database! Are you sure the DB URL matches Neon?`);
     }
 
     if (!user.active) {
-      throw new Error('User account is inactive');
+      throw new Error('DEBUG: User account is inactive');
     }
 
     // Verify password
     const isValid = await bcrypt.compare(password, user.passwordHash);
     if (!isValid) {
-      throw new Error('Invalid email or password');
+      throw new Error(`DEBUG: Incorrect password for ${sanitizedEmail}. DB Hash starts with ${user.passwordHash.substring(0, 10)}`);
     }
 
     // Update last login
