@@ -68,9 +68,17 @@ export default function LoginPage() {
       router.push('/dashboard');
     } catch (error: any) {
       console.error('Login error:', error);
+      
+      let errorMessage = error.message;
+      if (errorMessage === 'Configuration') {
+        errorMessage = 'Server Configuration Error: Please ensure AUTH_SECRET is set in Vercel and NEXTAUTH_URL exactly matches the live domain, then trigger a redeploy.';
+      } else if (errorMessage === 'CredentialsSignin') {
+        errorMessage = 'Invalid email or password. Please check your credentials and ensure the email is entirely lowercase.';
+      }
+
       toast({
         title: 'Login failed',
-        description: error.message || 'Invalid credentials',
+        description: errorMessage || 'Invalid credentials',
         variant: 'destructive',
       });
     } finally {
