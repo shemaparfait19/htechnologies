@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
         id: user.id,
         email: user.email,
         name: user.fullName,
+        fullName: user.fullName, // Keep fullName for backwards compatibility
         role: user.role,
         branchId: user.branchId
     };

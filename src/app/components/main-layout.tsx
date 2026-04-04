@@ -60,10 +60,7 @@ export const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const [headerTitle, setHeaderTitle] = useState('H TECHNOLOGIES LTD');
   const [branches, setBranches] = useState<any[]>([]);
 
-  // On the login page, render NO navigation — just a plain full-screen container
-  if (pathname === '/login') {
-    return <>{children}</>;
-  }
+  // Hooks must be called unconditionally
 
   useEffect(() => {
     fetch('/api/branches')
@@ -97,6 +94,11 @@ export const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
         setHeaderTitle('H TECHNOLOGIES LTD');
     }
   }, [pathname, t]);
+
+  // On the login page, render NO navigation — just a plain full-screen container
+  if (pathname === '/login' || pathname === '/admin-pin') {
+    return <>{children}</>;
+  }
 
   return (
     <SidebarProvider>
