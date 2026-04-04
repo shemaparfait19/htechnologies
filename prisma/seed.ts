@@ -10,15 +10,19 @@ async function main() {
   const passwordHash = await bcrypt.hash('admin123', 10);
   
   const owner = await prisma.user.upsert({
-    where: { email: 'admin@kingservicetech.com' },
-    update: {},
+    where: { username: 'admin' },
+    update: {
+      email: 'htechnologiesltd1@gmail.com',
+      phone: '0780562454',
+      passwordHash,
+    },
     create: {
-      email: 'admin@kingservicetech.com',
+      email: 'htechnologiesltd1@gmail.com',
       username: 'admin',
       passwordHash,
       role: 'owner',
       fullName: 'System Administrator',
-      phone: '+250788000000',
+      phone: '0780562454',
       active: true,
     },
   });
@@ -49,8 +53,8 @@ async function main() {
   // Create sample customer
   const customer = await prisma.customer.create({
     data: {
-      name: 'John Doe',
-      phone: '+250788123456',
+      name: 'Walk-in Customer',
+      phone: '0000000',
       customerType: 'walk_in',
     },
   }).catch(() => null);
@@ -59,7 +63,7 @@ async function main() {
 
   console.log('\n🎉 Seeding completed!');
   console.log('\n📝 Login credentials:');
-  console.log('   Email: admin@kingservicetech.com');
+  console.log('   Email: htechnologiesltd1@gmail.com');
   console.log('   Password: admin123');
   console.log('\n⚠️  Please change the password after first login!');
 }
