@@ -1,8 +1,8 @@
-import { auth } from '@/lib/auth';
+import { getSessionUser } from '@/lib/auth-helper';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  const session = await auth();
+  const session = await getSessionUser(request);
   
   return NextResponse.json({
     message: 'Session Debug',

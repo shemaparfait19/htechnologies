@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendPushNotification } from '@/lib/push-service';
 
-import { auth } from '@/lib/auth';
 import { getSessionUser } from '@/lib/auth-helper';
 import { logUserAction } from '@/lib/log-helper';
 

@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { canManageSales } from '@/lib/permissions';
-import { auth } from '@/lib/auth';
 import { getSessionUser } from '@/lib/auth-helper';
 import { logUserAction } from '@/lib/log-helper';
 

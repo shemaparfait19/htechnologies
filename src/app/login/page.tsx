@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,21 +30,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // 1. Establish NextAuth Session (Sets Cookie)
-      // We use credentials provider. redirect: false ensures we handle the UI flow.
-      const result = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-      });
-
-      if (result?.error) {
-        throw new Error(result.error);
-      }
-
-      // 2. Get User Data for Legacy LocalStorage/Context
-      // We call the custom API because NextAuth signIn response doesn't return the full user object
-      // This maintains compatibility with the existing auth-provider.tsx which uses localStorage.
+      // Call custom login endpoint which sets the HTTPOnly session cookie
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -55,8 +40,6 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Fallback: if NextAuth succeded but this failed, we might have an inconsistency
-        console.warn('NextAuth login success but custom API failed');
         throw new Error(data.error || 'Login failed verification');
       }
 

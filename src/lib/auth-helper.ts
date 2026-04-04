@@ -1,5 +1,6 @@
-import { auth } from "./auth";
+import { verifyToken } from "./jwt";
 import { prisma } from "./prisma";
+import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 /**
@@ -9,16 +10,27 @@ import { NextRequest } from "next/server";
  */
 export async function getSessionUser(request?: NextRequest) {
   try {
-    // 1. Get the session using NextAuth v5 auth()
-    const session = await auth();
+    // 1. Get the session using custom JWT cookie
+    let token: string | undefined;
+    
+    if (request) {
+      token = request.cookies.get('session_token')?.value;
+    } else {
+      token = (await cookies()).get('session_token')?.value;
+    }
 
-    if (!session || !session.user || !session.user.id) {
+    if (!token) {
+      return null;
+    }
+
+    const payload = await verifyToken(token);
+    if (!payload || !payload.id) {
       return null;
     }
 
     // 2. Query the database directly for the most up-to-date user state
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: payload.id },
       select: {
           id: true,
           email: true,
@@ -30,7 +42,7 @@ export async function getSessionUser(request?: NextRequest) {
     });
 
     if (!user) {
-         console.warn("getSessionUser: Session exists but user not found in DB:", session.user.id);
+         console.warn("getSessionUser: Session exists but user not found in DB:", payload.id);
          return null;
     }
 
@@ -39,7 +51,7 @@ export async function getSessionUser(request?: NextRequest) {
          return null;
     }
 
-    // 3. Return a consistent session-like object
+    // 3. Return a consistent session-like object for compatibility with API routes
     return {
         user: {
             id: user.id,

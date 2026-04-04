@@ -1,0 +1,82 @@
+﻿.next/types/validator.ts(270,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/appointments/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/appointments/[id]">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ customer: { name: string; id: string; phone: string; createdAt: Date; email: string | null; branchId: string | null; ... 7 more ...; blacklisted: boolean; }; assignedUser: { ...; }; } & { ...; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(315,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/customers/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/customers/[id]">'.
+  Types of property 'GET' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ repairJobs: { model: string; id: string; createdAt: Date; branchId: string | null; jobNumber: string; ... 19 more ...; collectedAt: Date | null; }[]; salesInvoices: { ...; }[]; appointments: { ...; }[]; } & { ...; }> | NextRes...' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(360,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/inventory/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/inventory/[id]">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ category: { name: string; id: string; createdAt: Date; type: InventoryType; parentId: string | null; }; } & { ...; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(396,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/notifications/[id]/read/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/notifications/[id]/read">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ success: boolean; }> | NextResponse<{ error: any; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(432,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/repairs/[id]/internal-sale/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/repairs/[id]/internal-sale">'.
+  Types of property 'POST' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ invoiceNumber: string; id: string; }> | NextResponse<{ error: any; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(441,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/repairs/[id]/parts/[partId]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/repairs/[id]/parts/[partId]">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; partId: string; }; }) => Promise<NextResponse<{ id: string; createdAt: Date; branchId: string | null; unitCost: number; quantity: number; itemId: string | null; repairJobId: string; customName: string | null; totalCost: number; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; partId: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; partId: string; }>; }' is not assignable to type '{ params: { id: string; partId: string; }; }'.
+          Types of property 'params' are incompatible.
+            Type 'Promise<{ id: string; partId: string; }>' is missing the following properties from type '{ id: string; partId: string; }': id, partId
+.next/types/validator.ts(450,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/repairs/[id]/parts/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/repairs/[id]/parts">'.
+  Types of property 'POST' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ item: { name: string; id: string; location: string | null; active: boolean; createdAt: Date; branchId: string | null; ... 9 more ...; lowStockAlert: boolean; } | null; } & { ...; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(459,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/repairs/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/repairs/[id]">'.
+  Types of property 'GET' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ customer: { name: string; id: string; phone: string; createdAt: Date; email: string | null; branchId: string | null; ... 7 more ...; blacklisted: boolean; }; assignedUser: { ...; } | null; createdByUser: { ...; }; partsUsed: (...' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(468,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/repairs/[id]/status/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/repairs/[id]/status">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ customer: { name: string; id: string; phone: string; createdAt: Date; email: string | null; branchId: string | null; ... 7 more ...; blacklisted: boolean; }; assignedUser: { ...; } | null; } & { ...; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(513,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/sales/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/sales/[id]">'.
+  Types of property 'DELETE' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ success: boolean; }> | NextResponse<{ error: any; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+.next/types/validator.ts(531,31): error TS2344: Type 'typeof import("E:/system2/H TECHNOLOGIES LTD/src/app/api/users/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/users/[id]">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ id: string; phone: string; createdAt: Date; email: string; role: UserRole; fullName: string; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+src/app/api/auth/[...nextauth]/route.ts(1,26): error TS2307: Cannot find module '@/lib/auth' or its corresponding type declarations.
+src/app/inventory/components/stock-adjustment-dialog.tsx(127,60): error TS2304: Cannot find name 'TransactionReason'.
+src/components/ui/calendar.tsx(57,9): error TS2353: Object literal may only specify known properties, and 'IconLeft' does not exist in type 'Partial<CustomComponents>'.
+src/components/ui/calendar.tsx(57,22): error TS7031: Binding element 'className' implicitly has an 'any' type.
+src/components/ui/calendar.tsx(60,23): error TS7031: Binding element 'className' implicitly has an 'any' type.

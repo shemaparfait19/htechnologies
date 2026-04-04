@@ -3,16 +3,13 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { LayoutDashboard, Users, Activity, Settings, LogOut, ShieldAlert, BarChart3 } from 'lucide-react';
 import { getSessionUser } from '@/lib/auth-helper';
-import { auth } from '@/lib/auth';
 
 export default async function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const rawAuth = await auth();
   const session = await getSessionUser();
-  console.log('AdminDashboardLayout - rawAuth:', JSON.stringify(rawAuth, null, 2));
   console.log('AdminDashboardLayout - getSessionUser:', JSON.stringify(session, null, 2));
 
   if (!session || !session.user) {

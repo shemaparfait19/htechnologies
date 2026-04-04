@@ -3,14 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import type { RepairStatus } from '@prisma/client';
 
-import { auth } from '@/lib/auth';
+import { getSessionUser } from '@/lib/auth-helper';
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await auth();
+    const session = await getSessionUser(request);
     if (!session || !session.user) {
        return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }

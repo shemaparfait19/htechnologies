@@ -124,7 +124,7 @@ export function StockAdjustmentDialog({ open, onOpenChange, onSuccess, item }: S
             <Label htmlFor="reason">Reason *</Label>
             <Select
               value={reason}
-              onValueChange={(value) => setReason(value as TransactionReason)}
+              onValueChange={(value) => setReason(value)}
             >
               <SelectTrigger>
                 <SelectValue />
