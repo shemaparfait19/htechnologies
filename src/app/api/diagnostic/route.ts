@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import bcrypt from 'bcryptjs';
 
 export async function GET() {
-  return NextResponse.json({
-    status: 'Environment Diagnostics',
-    hasAuthSecret: !!process.env.AUTH_SECRET,
-    hasNextAuthSecret: !!process.env.NEXTAUTH_SECRET,
-    authSecretLength: process.env.AUTH_SECRET?.length || 0,
-    hasDatabaseUrl: !!process.env.DATABASE_URL,
-    databasePrefix: process.env.DATABASE_URL?.substring(0, 10) || 'None',
-    nodeEnv: process.env.NODE_ENV,
-    vercelEnv: process.env.VERCEL_ENV || 'None passed',
-    authUrl: process.env.AUTH_URL || process.env.NEXTAUTH_URL || 'None passed manually',
-    vercelProdUrl: process.env.VERCEL_PROJECT_PRODUCTION_URL || 'Unknown'
-  });
+  try {
+    const hash = await bcrypt.hash('admin123', 10);
+    const updated = await prisma.user.update({
+      where: { email: 'htechnologiesltd1@gmail.com' },
+      data: { passwordHash: hash, fullName: 'H Technologies LTD', active: true }
+    });
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Password forcefully reset to admin123 and name set to H Technologies LTD for ' + updated.email 
+    });
+  } catch(e: any) {
+    return NextResponse.json({ error: e.message });
+  }
 }
