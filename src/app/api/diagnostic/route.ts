@@ -5,9 +5,18 @@ import bcrypt from 'bcryptjs';
 export async function GET() {
   try {
     const hash = await bcrypt.hash('admin123', 10);
-    const updated = await prisma.user.update({
+    const updated = await prisma.user.upsert({
       where: { email: 'htechnologiesltd1@gmail.com' },
-      data: { passwordHash: hash, fullName: 'H Technologies LTD', active: true }
+      update: { passwordHash: hash, fullName: 'H Technologies LTD', active: true, role: 'owner' },
+      create: {
+          email: 'htechnologiesltd1@gmail.com',
+          passwordHash: hash,
+          fullName: 'H Technologies LTD',
+          active: true,
+          role: 'owner',
+          username: 'admin',
+          phone: '0000000000'
+      }
     });
     return NextResponse.json({ 
       success: true, 
