@@ -1,4 +1,4 @@
-// Service Worker for King Service Tech PWA
+// Service Worker for H Technologies PWA
 const CACHE_NAME = 'king-service-tech-v1';
 const STATIC_CACHE = 'static-v1';
 const API_CACHE = 'api-v1';
@@ -105,7 +105,7 @@ self.addEventListener('push', (event) => {
     data = event.data.json();
   }
 
-  const title = data.title || 'King Service Tech';
+  const title = data.title || 'H Technologies';
   const options = {
     body: data.body || 'New notification',
     icon: data.icon || '/icons/icon-192x192.png',

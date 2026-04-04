@@ -1,6 +1,6 @@
 {
-  "name": "King Service Tech",
-  "short_name": "KingTech",
+  "name": "H Technologies",
+  "short_name": "HTech",
   "description": "Complete repair shop management system with inventory, sales, and customer management",
   "start_url": "/dashboard",
   "display": "standalone",
