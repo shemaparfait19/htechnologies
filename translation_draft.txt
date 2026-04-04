@@ -1,0 +1,141 @@
+# Kinyarwanda Translation Draft
+# INSTRUCTIONS:
+# 1. Edit the Kinyarwanda text on the right side of the "=" sign.
+# 2. Do not change the English text or the keys on the left.
+# 3. Save this file when you are done.
+
+[Common]
+save: Save = Bika
+cancel: Cancel = Hagarika
+delete: Delete = Siba
+edit: Edit = Hindura
+add: Add = Ongeraho
+search: Search = Shakisha
+loading: Loading = Loading
+actions: Actions = Ibikorwa
+status: Status = Imiterere
+date: Date = Itariki
+total: Total = Igiteranyo
+view: View = Reba
+back: Back = Subira inyuma
+close: Close = Funga
+confirm: Confirm = Emeza
+submit: Submit = Ohereza
+
+[Nav]
+dashboard: Dashboard = Ibanze
+inventory: Inventory = Ibicuruzwa
+customers: Customers = Abakiriya
+repairs: Repairs = Gusana
+sales: Sales = Kugurisha
+settings: Settings = Igenamiterere
+reports: Reports = Raporo
+
+[Dashboard]
+title: Dashboard = Ibanze
+welcome: Welcome back = Murakaza neza
+overview: Overview = Incamake
+recentActivity: Recent Activity = Ibikorwa Biheruka
+attentionNeeded: Attention Needed = Bisaba Kwitabwaho
+lowStock: Low Stock Items = Ibicuruzwa Bike
+overdueRepairs: Overdue Repairs = Gusana Gutinze
+stats.totalRevenue: Total Revenue = Amafaranga Yinjije
+stats.activeRepairs: Active Repairs = Gusana Gukomeje
+stats.lowStockItems: Low Stock Items = Ibicuruzwa Bike
+stats.pendingOrders: Pending Orders = Ibisabwa Bitegereje
+
+[Inventory]
+title: Inventory = Ibicuruzwa
+addItem: Add Item = Ongeraho Igicuruzwa
+stockLevel: Stock Level = Umubare mu Bubiko
+reorderLevel: Reorder Level = Umubare wo Kongera Gutumiza
+unitCost: Unit Cost = Ikiguzi cy'Igice Kimwe
+sellingPrice: Selling Price = Ikiguzi cyo Kugurisha
+location: Location = Aho Bibitse
+sku: SKU = Kode y'Igicuruzwa
+barcode: Barcode = Barcode
+category: Category = Icyiciro
+quantity: Quantity = Umubare
+adjust: Adjust = Hindura
+adjustStock: Adjust Stock = Hindura Umubare
+searchPlaceholder: Search... = Shakisha mu izina, kode, cyangwa barcode...
+noItems: No items... = Nta bicuruzwa
+noItemsFound: No items found = Nta gicuruzwa cyabonetse
+
+[Customers]
+title: Customers = Abakiriya
+addCustomer: Add Customer = Ongeramo Umukiriya
+name: Name = Izina
+phone: Phone = Telefoni
+email: Email = Imeri
+address: Address = Aderesi
+type: Customer Type = Ubwoko bw'Umukiriya
+notes: Notes = Ibisobanuro
+totalSpent: Total Spent = Amafaranga Yose Yakoresheje
+loyaltyPoints: Loyalty Points = Amanota y'Ubudahemuka
+types.walk_in: Walk-in = Umukiriya w'Akadiho
+types.regular: Regular = Umukiriya Usanzwe
+types.vip: VIP = Umukiriya Wihariye
+types.corporate: Corporate = Ikigo
+
+[Repairs]
+title: Repair Jobs = Gusana
+newRepair: New Repair Job = Akazi Gashya ko Gusana
+jobNumber: Job # = Nomero y'Akazi
+customer: Customer = Umukiriya
+device: Device = Igikoresho
+deviceType: Device Type = Ubwoko bw'Igikoresho
+brand: Brand = Ikirango
+model: Model = Icyitegererezo
+problem: Problem Description = Ikibazo
+diagnosis: Diagnosis = Isuzuma
+parts: Parts Used = Ibikoresho Byakoreshejwe
+status: Status = Imiterere
+priority: Priority = Ibyibanze
+estimatedCost: Estimated Cost = Ikiguzi Giteganijwe
+depositPaid: Deposit Paid = Imbere Yishyuwe
+promisedDate: Promised Date = Itariki Yasezeranijwe
+assignedTo: Assigned To = Yahawe
+statuses.pending: Pending = Itegereje
+statuses.diagnosed: Diagnosed = Yasuzumwe
+statuses.in_progress: In Progress = Irimo Gukorwa
+statuses.waiting_parts: Waiting Parts = Itegereje Ibice
+statuses.ready: Ready = Byiteguye
+statuses.collected: Collected = Byakuwe
+statuses.abandoned: Abandoned = Byatereranijwe
+
+[Sales]
+title: Sales = Kugurisha
+newSale: New Sale = Igurisha Rishya
+pos: Point of Sale = Igurisha
+history: Sales History = Amateka y'Igurisha
+invoice: Invoice = Inyemezabuguzi
+invoiceNumber: Invoice # = Nomero y'Inyemezabuguzi
+items: Items = Ibintu
+subtotal: Subtotal = Igiteranyo
+tax: Tax = Imisoro
+discount: Discount = Kugabanuka
+total: Total = Igiteranyo Rusange
+paymentMethod: Payment Method = Uburyo bwo Kwishyura
+paymentStatus: Payment Status = Imiterere y'Ubwishyu
+methods.cash: Cash = Amafaranga Agashitse
+methods.card: Card = Ikarita
+methods.mobile_money: Mobile Money = Amafaranga ya Telefoni
+methods.bank_transfer: Bank Transfer = Kohereza muri Banki
+
+[Settings]
+title: Settings = Igenamiterere
+profile: Profile = Umwirondoro
+users: Users = Abakoresha
+general: General = Rusange
+language: Language = Ururimi
+changeLanguage: Change Language = Hindura Ururimi
+
+[Auth]
+login: Login = Injira
+logout: Logout = Sohoka
+email: Email = Imeri
+password: Password = Ijambo Ryibanga
+forgotPassword: Forgot Password? = Wibagiwe Ijambo Ryibanga?
+signIn: Sign In = Injira
+signOut: Sign Out = Sohoka

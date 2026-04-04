@@ -1,0 +1,42 @@
+{
+  "name": "King Service Tech",
+  "short_name": "KingTech",
+  "description": "Complete repair shop management system with inventory, sales, and customer management",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-512x512.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "New Repair",
+      "short_name": "Repair",
+      "description": "Create a new repair job",
+      "url": "/repairs?action=new",
+      "icons": [{ "src": "/icons/repair-shortcut.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "POS",
+      "short_name": "Sales",
+      "description": "Open point of sale",
+      "url": "/sales",
+      "icons": [{ "src": "/icons/pos-shortcut.png", "sizes": "96x96" }]
+    }
+  ]
+}

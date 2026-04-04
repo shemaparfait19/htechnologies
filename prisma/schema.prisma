@@ -1,0 +1,484 @@
+// Prisma schema for H TECHNOLOGIES LTD PWA with Neon PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------------------------------
+// Branches & Admin
+// ----------------------------------------------------------------------------
+model Branch {
+  id        String   @id @default(cuid())
+  name      String
+  location  String?
+  phone     String?
+  isDefault Boolean  @default(false)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  // Relations
+  users                 User[]
+  customers             Customer[]
+  inventoryItems        InventoryItem[]
+  inventoryTransactions InventoryTransaction[]
+  repairJobs            RepairJob[]
+  repairPartsUsed       RepairPartUsed[]
+  salesInvoices         SalesInvoice[]
+  appointments          Appointment[]
+  expenses              Expense[]
+  userLogs              UserLog[]
+
+  @@map("branches")
+}
+
+model AdminSettings {
+  id        String   @id @default(cuid())
+  adminPin  String   @default("00000")
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_settings")
+}
+
+model UserLog {
+  id        String   @id @default(cuid())
+  userId    String
+  branchId  String?
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  user   User    @relation(fields: [userId], references: [id])
+  branch Branch? @relation(fields: [branchId], references: [id])
+
+  @@map("user_logs")
+}
+
+// ----------------------------------------------------------------------------
+// User Management
+// ----------------------------------------------------------------------------
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String
+  role         UserRole
+  fullName     String
+  phone        String
+  active       Boolean   @default(true)
+  branchId     String?
+  createdAt    DateTime  @default(now())
+  lastLogin    DateTime?
+
+  // Relations
+  branch                Branch?                @relation(fields: [branchId], references: [id])
+  inventoryTransactions InventoryTransaction[]
+  repairJobs            RepairJob[]            @relation("AssignedRepairs")
+  createdRepairs        RepairJob[]            @relation("CreatedRepairs")
+  salesInvoices         SalesInvoice[]
+  appointments          Appointment[]          @relation("AssignedAppointments")
+  createdAppointments   Appointment[]          @relation("CreatedAppointments")
+  expenses              Expense[]
+  notifications         Notification[]
+  pushSubscriptions     PushSubscription[]
+  activityLogs          ActivityLog[]
+  userLogs              UserLog[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  owner
+  manager
+  technician
+  sales
+}
+
+// ----------------------------------------------------------------------------
+// Customer Management
+// ----------------------------------------------------------------------------
+model Customer {
+  id            String       @id @default(cuid())
+  name          String
+  phone         String
+  phone2        String?
+  email         String?
+  address       String?
+  customerType  CustomerType @default(walk_in)
+  creditLimit   Float        @default(0)
+  totalSpent    Float        @default(0)
+  loyaltyPoints Int          @default(0)
+  notes         String?
+  blacklisted   Boolean      @default(false)
+  branchId      String?
+  createdAt     DateTime     @default(now())
+
+  // Relations
+  branch        Branch?        @relation(fields: [branchId], references: [id])
+  repairJobs    RepairJob[]
+  salesInvoices SalesInvoice[]
+  appointments  Appointment[]
+
+  @@map("customers")
+}
+
+enum CustomerType {
+  walk_in
+  regular
+  vip
+  corporate
+}
+
+// ----------------------------------------------------------------------------
+// Inventory Management
+// ----------------------------------------------------------------------------
+model InventoryCategory {
+  id        String        @id @default(cuid())
+  name      String
+  type      InventoryType
+  parentId  String?
+  createdAt DateTime      @default(now())
+
+  // Relations
+  parent   InventoryCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children InventoryCategory[] @relation("CategoryHierarchy")
+  items    InventoryItem[]
+
+  @@map("inventory_categories")
+}
+
+enum InventoryType {
+  SHOP
+  REPAIR
+}
+
+model InventoryItem {
+  id              String   @id @default(cuid())
+  categoryId      String
+  name            String
+  sku             String   @unique
+  barcode         String?
+  unitCost        Float
+  sellingPrice    Float
+  quantity        Int      @default(0)
+  reorderLevel    Int      @default(10)
+  reorderQuantity Int      @default(50)
+  location        String?
+  supplierId      String?
+  lowStockAlert   Boolean  @default(false)
+  active          Boolean  @default(true)
+  branchId        String?
+  createdAt       DateTime @default(now())
+
+  // Relations
+  branch       Branch?                @relation(fields: [branchId], references: [id])
+  category     InventoryCategory      @relation(fields: [categoryId], references: [id])
+  supplier     Supplier?              @relation(fields: [supplierId], references: [id])
+  transactions InventoryTransaction[]
+  repairParts  RepairPartUsed[]
+  salesItems   SalesItem[]
+
+  @@map("inventory_items")
+}
+
+model InventoryTransaction {
+  id          String            @id @default(cuid())
+  itemId      String
+  type        TransactionType
+  quantity    Int
+  reason      TransactionReason
+  referenceId String?
+  userId      String
+  notes       String?
+  branchId    String?
+  createdAt   DateTime          @default(now())
+
+  // Relations
+  branch Branch?       @relation(fields: [branchId], references: [id])
+  item   InventoryItem @relation(fields: [itemId], references: [id])
+  user   User          @relation(fields: [userId], references: [id])
+
+  @@map("inventory_transactions")
+}
+
+enum TransactionType {
+  IN
+  OUT
+}
+
+enum TransactionReason {
+  sale
+  repair_use
+  damage
+  theft
+  return
+  adjustment
+  purchase
+}
+
+// ----------------------------------------------------------------------------
+// Repair Management
+// ----------------------------------------------------------------------------
+model RepairJob {
+  id                 String         @id @default(cuid())
+  jobNumber          String         @unique
+  customerId         String
+  deviceType         String
+  brand              String
+  model              String
+  serialNumber       String?
+  imei               String?
+  problemDescription String
+  diagnosis          String?
+  estimatedCost      Float          @default(0)
+  actualCost         Float          @default(0)
+  depositPaid        Float          @default(0)
+  balance            Float          @default(0)
+  status             RepairStatus   @default(pending)
+  priority           RepairPriority @default(normal)
+  assignedTo         String?
+  promisedDate       DateTime
+  photoUrls          String[]
+  branchId           String?
+  createdAt          DateTime       @default(now())
+  createdBy          String
+  startedAt          DateTime?
+  completedAt        DateTime?
+  collectedAt        DateTime?
+
+  // Relations
+  branch        Branch?          @relation(fields: [branchId], references: [id])
+  customer      Customer         @relation(fields: [customerId], references: [id])
+  assignedUser  User?            @relation("AssignedRepairs", fields: [assignedTo], references: [id])
+  createdByUser User             @relation("CreatedRepairs", fields: [createdBy], references: [id])
+  partsUsed     RepairPartUsed[]
+
+  @@map("repair_jobs")
+}
+
+enum RepairStatus {
+  pending
+  diagnosed
+  in_progress
+  ready
+  collected
+  abandoned
+}
+
+enum RepairPriority {
+  normal
+  urgent
+  express
+}
+
+model RepairPartUsed {
+  id          String   @id @default(cuid())
+  repairJobId String
+  itemId      String?
+  customName  String?
+  quantity    Int
+  unitCost    Float
+  totalCost   Float
+  branchId    String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  branch    Branch?        @relation(fields: [branchId], references: [id])
+  repairJob RepairJob      @relation(fields: [repairJobId], references: [id])
+  item      InventoryItem? @relation(fields: [itemId], references: [id])
+
+  @@map("repair_parts_used")
+}
+
+// ----------------------------------------------------------------------------
+// Sales Management
+// ----------------------------------------------------------------------------
+model SalesInvoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique
+  customerId    String?
+  saleDate      DateTime      @default(now())
+  subtotal      Float
+  discount      Float         @default(0)
+  tax           Float         @default(0)
+  total         Float
+  paidAmount    Float         @default(0)
+  paymentMethod PaymentMethod
+  paymentStatus PaymentStatus @default(unpaid)
+  userId        String
+  branchId      String?
+  createdAt     DateTime      @default(now())
+
+  // Relations
+  branch   Branch?     @relation(fields: [branchId], references: [id])
+  customer Customer?   @relation(fields: [customerId], references: [id])
+  user     User        @relation(fields: [userId], references: [id])
+  items    SalesItem[]
+
+  @@map("sales_invoices")
+}
+
+enum PaymentMethod {
+  cash
+  momo_mtn
+  momo_airtel
+  bank
+  credit
+}
+
+enum PaymentStatus {
+  paid
+  partial
+  unpaid
+}
+
+model SalesItem {
+  id        String @id @default(cuid())
+  invoiceId String
+  itemId    String
+  quantity  Int
+  unitPrice Float
+  discount  Float  @default(0)
+  total     Float
+
+  // Relations
+  invoice SalesInvoice  @relation(fields: [invoiceId], references: [id])
+  item    InventoryItem @relation(fields: [itemId], references: [id])
+
+  @@map("sales_items")
+}
+
+// ----------------------------------------------------------------------------
+// Appointments & Scheduling
+// ----------------------------------------------------------------------------
+model Appointment {
+  id              String            @id @default(cuid())
+  customerId      String
+  title           String
+  description     String
+  appointmentDate DateTime
+  duration        Int // minutes
+  status          AppointmentStatus @default(scheduled)
+  assignedTo      String
+  location        String?
+  createdBy       String
+  branchId        String?
+  createdAt       DateTime          @default(now())
+
+  // Relations
+  branch       Branch?  @relation(fields: [branchId], references: [id])
+  customer     Customer @relation(fields: [customerId], references: [id])
+  assignedUser User     @relation("AssignedAppointments", fields: [assignedTo], references: [id])
+  createdUser  User     @relation("CreatedAppointments", fields: [createdBy], references: [id])
+
+  @@map("appointments")
+}
+
+enum AppointmentStatus {
+  scheduled
+  completed
+  cancelled
+}
+
+// ----------------------------------------------------------------------------
+// Expenses
+// ----------------------------------------------------------------------------
+model Expense {
+  id          String   @id @default(cuid())
+  category    String
+  description String
+  amount      Float
+  expenseDate DateTime
+  userId      String
+  notes       String?
+  branchId    String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  branch Branch? @relation(fields: [branchId], references: [id])
+  user   User    @relation(fields: [userId], references: [id])
+
+  @@map("expenses")
+}
+
+// ----------------------------------------------------------------------------
+// Notifications & Activity
+// ----------------------------------------------------------------------------
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  message   String
+  read      Boolean          @default(false)
+  relatedId String?
+  createdAt DateTime         @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+enum NotificationType {
+  low_stock
+  overdue_repair
+  payment_due
+  new_repair
+  device_ready
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  tableName String
+  recordId  String
+  oldValue  String?
+  newValue  String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("activity_logs")
+}
+
+// ----------------------------------------------------------------------------
+// Suppliers & Push
+// ----------------------------------------------------------------------------
+model Supplier {
+  id            String   @id @default(cuid())
+  name          String
+  contactPerson String?
+  phone         String
+  email         String?
+  address       String?
+  notes         String?
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  items InventoryItem[]
+
+  @@map("suppliers")
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("push_subscriptions")
+}
