@@ -27,16 +27,8 @@ export default function SalesPage() {
   const { toast } = useToast();
   const { user } = useAuth();
   const router = useRouter();
-  
-  if (user && !canManageSales(user.role)) {
-      return (
-          <div className="flex flex-col items-center justify-center min-h-[50vh]">
-              <h2 className="text-2xl font-bold text-red-600">Unauthorized</h2>
-              <p className="text-muted-foreground">You do not have permission to access the Point of Sale.</p>
-          </div>
-      )
-  }
 
+  // All hooks must be declared before any early return
   const [items, setItems] = useState<any[]>([]);
   const [cart, setCart] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -49,6 +41,15 @@ export default function SalesPage() {
   useEffect(() => {
     fetchItems();
   }, []);
+
+  if (user && !canManageSales(user.role)) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <h2 className="text-2xl font-bold text-red-600">Unauthorized</h2>
+        <p className="text-muted-foreground">You do not have permission to access the Point of Sale.</p>
+      </div>
+    );
+  }
 
   const fetchItems = async () => {
     try {
