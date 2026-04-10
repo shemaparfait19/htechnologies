@@ -32,7 +32,7 @@ export async function signIn(
     // Verify password
     const isValid = await bcrypt.compare(password, user.passwordHash);
     if (!isValid) {
-      throw new Error(`DEBUG: Incorrect password for ${sanitizedEmail}. DB Hash starts with ${user.passwordHash.substring(0, 10)}`);
+      throw new Error(`DEBUG: Incorrect password for ${sanitizedEmail}. DB Hash starts with ${user.passwordHash.substring(0, 10)}. You typed a password with length ${password.length} starting with '${password.substring(0, 3)}'. Did you include a space?`);
     }
 
     // Update last login
