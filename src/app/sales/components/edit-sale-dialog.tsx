@@ -69,6 +69,8 @@ export function EditSaleDialog({ open, onOpenChange, invoice, onSuccess }: EditS
     }
   }, [open]);
 
+  const [itemSearch, setItemSearch] = useState('');
+
   if (!invoice) return null;
 
   const subtotal = cartItems.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
@@ -140,7 +142,6 @@ export function EditSaleDialog({ open, onOpenChange, invoice, onSuccess }: EditS
     }
   };
 
-  const [itemSearch, setItemSearch] = useState('');
   const filteredInv = inventoryItems.filter(
     (i) =>
       i.name.toLowerCase().includes(itemSearch.toLowerCase()) ||
