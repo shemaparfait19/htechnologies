@@ -175,7 +175,6 @@ export function CustomerSearch({ onSelectCustomer, selectedCustomer }: CustomerS
               </div>
             </div>
           )}
-        </div>
 
         {selectedCustomer && (
           <Button variant="outline" onClick={handleClearCustomer}>
