@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Search, Plus, User } from 'lucide-react';
+import { Search, Plus, User, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface CustomerSearchProps {
@@ -120,17 +120,27 @@ export function CustomerSearch({ onSelectCustomer, selectedCustomer }: CustomerS
     <div className="space-y-2 relative" ref={dropdownRef}>
       <Label htmlFor="customer-search">Customer (Optional)</Label>
       <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="customer-search"
-            placeholder="Search by name, phone, or email..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => searchQuery && setShowDropdown(true)}
-            className="pl-10"
-            disabled={selectedCustomer !== null}
-          />
+          <div className="relative flex-1 flex items-center">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              id="customer-search"
+              placeholder="Search by name, phone, or email..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => searchQuery && setShowDropdown(true)}
+              className="pl-10 pr-10"
+              disabled={selectedCustomer !== null}
+            />
+            {searchQuery && selectedCustomer === null && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
           
           {/* Dropdown */}
           {showDropdown && filteredCustomers.length > 0 && (

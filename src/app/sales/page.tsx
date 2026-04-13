@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Search, Trash2, ShoppingCart, History } from 'lucide-react';
+import { Plus, Search, Trash2, ShoppingCart, History, X } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/app/components/auth-provider';
@@ -69,8 +69,25 @@ export default function SalesPage() {
   );
 
   const addToCart = (item: any) => {
+    if (item.quantity <= 0) {
+      toast({
+        title: 'Out of stock',
+        description: `${item.name} is currently out of stock.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
     const existing = cart.find((c) => c.id === item.id);
     if (existing) {
+      if (existing.quantity >= item.quantity) {
+        toast({
+          title: 'Not enough stock',
+          description: `Cannot add more ${item.name}. Only ${item.quantity} available.`,
+          variant: 'destructive',
+        });
+        return;
+      }
       setCart(
         cart.map((c) =>
           c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c
@@ -193,14 +210,23 @@ export default function SalesPage() {
             <CardTitle>{t('products')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="relative mb-4">
+            <div className="relative mb-4 flex items-center">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={t('searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 pr-10"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto">

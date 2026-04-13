@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Search, Edit, Package, Trash2 } from 'lucide-react';
+import { Search, Edit, Package, Trash2, X } from 'lucide-react';
 import { formatCurrency, getStockLevel } from '@/lib/utils';
 import type { InventoryType } from '@/lib/types';
 import { ItemDialog } from './item-dialog';
@@ -96,14 +96,23 @@ export function InventoryTable({ type }: InventoryTableProps) {
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center gap-4 mb-4">
-            <div className="relative flex-1">
+            <div className="relative flex-1 flex items-center">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={t('searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 pr-10"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </div>
 

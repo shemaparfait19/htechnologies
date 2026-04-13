@@ -2,7 +2,7 @@
 
 import type { FC, ReactNode } from 'react';
 import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -29,6 +29,8 @@ import {
   Crown,
   Calendar,
   FileText,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { UserNav } from './user-nav';
 import { useAuth } from './auth-provider';
@@ -56,6 +58,7 @@ const navItems = [
 export const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const t = useTranslations('nav');
   const pathname = usePathname();
+  const router = useRouter();
   const { user, loading } = useAuth();
   const [headerTitle, setHeaderTitle] = useState('H TECHNOLOGIES LTD');
   const [branches, setBranches] = useState<any[]>([]);
@@ -178,6 +181,24 @@ export const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
         <SidebarInset className="flex w-full flex-col">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
             <SidebarTrigger />
+            
+            {/* PWA App Navigation Controls */}
+            <div className="hidden sm:flex items-center gap-1">
+              <button 
+                onClick={() => router.back()} 
+                className="h-8 w-8 inline-flex items-center justify-center rounded-md hover:bg-accent text-muted-foreground transition-colors"
+                title="Go Back"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button 
+                onClick={() => router.forward()} 
+                className="h-8 w-8 inline-flex items-center justify-center rounded-md hover:bg-accent text-muted-foreground transition-colors"
+                title="Go Forward"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
             
             <div className="flex-1 overflow-hidden flex items-center gap-3">
               <h1 className="text-lg font-semibold truncate">
