@@ -14,6 +14,11 @@ const protectedRoutes = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Block all access when system is suspended (non-payment)
+  if (process.env.SYSTEM_SUSPENDED === 'true' && pathname !== '/suspended') {
+    return NextResponse.redirect(new URL('/suspended', request.url));
+  }
+
   // Root redirects to dashboard (which redirects to login if unauth'd)
   if (pathname === '/') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
