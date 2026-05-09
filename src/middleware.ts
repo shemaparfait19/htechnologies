@@ -15,8 +15,13 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Block all access when system is suspended (non-payment)
-  if (process.env.SYSTEM_SUSPENDED === 'true' && pathname !== '/suspended') {
-    return NextResponse.redirect(new URL('/suspended', request.url));
+  if (process.env.SYSTEM_SUSPENDED === 'true') {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: 'System suspended. Contact the developer.' }, { status: 402 });
+    }
+    if (pathname !== '/suspended') {
+      return NextResponse.redirect(new URL('/suspended', request.url));
+    }
   }
 
   // Root redirects to dashboard (which redirects to login if unauth'd)
@@ -69,5 +74,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Ignored paths
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|logo.png|manifest.json|sw.js).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|logo.png|manifest.json|sw.js).*)'],
 };
