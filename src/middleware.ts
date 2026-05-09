@@ -24,6 +24,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // API routes handle their own auth — don't run the rest of this middleware on them
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next();
+  }
+
   // Root redirects to dashboard (which redirects to login if unauth'd)
   if (pathname === '/') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
